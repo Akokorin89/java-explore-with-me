@@ -16,7 +16,7 @@ public class RequestPrivateController {
     @GetMapping("/{userId}/requests") // Получение информации о заявках текущего пользователя
     // на участие в чужих событиях
     public List<RequestDto> getRequests(@PathVariable Long userId) {
-        return  service.findRequests(userId);
+        return service.findRequests(userId);
     }
 
     @PostMapping("/{userId}/requests") // Добавление запроса от текущего пользователя на участие в событии
