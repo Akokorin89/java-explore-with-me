@@ -15,6 +15,7 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
             "from EndpointHit e " +
             "where e.timestamp > ?1 " +
             "and e.timestamp < ?2 " +
+
             "group by e.app, (e.uri)";
     String QUERY_UNIQUE = QUERY_NON_UNIQUE + ", e.ip";
 
@@ -22,8 +23,8 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
     Integer getViews(String uri);
 
     @Query(value = QUERY_NON_UNIQUE)
-    List<ViewStats> findAllNotUnique(LocalDateTime start, LocalDateTime end);
+    List<ViewStats> findAllNotUniqueOrderByViewDesc(LocalDateTime start, LocalDateTime end);
 
     @Query(value = QUERY_UNIQUE)
-    List<ViewStats> findAllUnique(LocalDateTime start, LocalDateTime end);
+    List<ViewStats> findAllUniqueOrderByViewDesc(LocalDateTime start, LocalDateTime end);
 }

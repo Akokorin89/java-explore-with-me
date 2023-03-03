@@ -36,9 +36,9 @@ public class StatsServiceImpl implements StatsService {
                 start, end, uris, unique);
         List<ViewStats> viewStats;
         if (!unique) {
-            viewStats = repository.findAllNotUnique(start, end);
+            viewStats = repository.findAllNotUniqueOrderByViewDesc(start, end);
         } else {
-            viewStats = repository.findAllUnique(start, end);
+            viewStats = repository.findAllUniqueOrderByViewDesc(start, end);
         }
         if (uris != null) {
             return viewStats.stream()
