@@ -9,13 +9,11 @@
     </parent>
 
     <artifactId>ewm-stats-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
     <name>ewm-stats-service</name>
 
     <properties>
         <java.version>11</java.version>
     </properties>
-
 
     <dependencies>
         <dependency>

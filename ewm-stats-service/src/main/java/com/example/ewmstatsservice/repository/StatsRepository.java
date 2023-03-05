@@ -15,7 +15,6 @@ public interface StatsRepository extends JpaRepository<EndpointHit, Long> {
             "from EndpointHit e " +
             "where e.timestamp > ?1 " +
             "and e.timestamp < ?2 " +
-
             "group by e.app, (e.uri)";
     String QUERY_UNIQUE = QUERY_NON_UNIQUE + ", e.ip";
 
