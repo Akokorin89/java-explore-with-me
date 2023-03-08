@@ -1,4 +1,4 @@
-package com.example.ewmmainservice.client;
+package com.example.ewmstatsservice.client;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

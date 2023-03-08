@@ -1,4 +1,4 @@
-package com.example.ewmstatsservice.service.repository;
+package com.example.ewmstatsservice.repository;
 
 import com.example.ewmstatsservice.dto.ViewStats;
 import com.example.ewmstatsservice.model.EndpointHit;

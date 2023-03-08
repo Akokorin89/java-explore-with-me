@@ -2,10 +2,11 @@ package com.example.ewmstatsservice.service;
 
 import com.example.ewmstatsservice.dto.ViewStats;
 import com.example.ewmstatsservice.model.EndpointHit;
-import com.example.ewmstatsservice.service.repository.StatsRepository;
+import com.example.ewmstatsservice.repository.StatsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class StatsServiceImpl implements StatsService {
     private final StatsRepository repository;
 
