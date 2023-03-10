@@ -12,7 +12,7 @@
 
     <name>Explore With Me</name>
     <modules>
-        <module>ewm-stats-service</module>
+        <module>stats-service</module>
         <module>ewm-main-service</module>
     </modules>
     <packaging>pom</packaging>
@@ -57,13 +57,6 @@
                             <phase>compile</phase>
                         </execution>
                     </executions>
-                    <dependencies>
-                        <dependency>
-                            <groupId>com.puppycrawl.tools</groupId>
-                            <artifactId>checkstyle</artifactId>
-                            <version>10.3</version>
-                        </dependency>
-                    </dependencies>
                 </plugin>
                 <plugin>
                     <groupId>com.github.spotbugs</groupId>
@@ -190,3 +183,4 @@
     </profiles>
 
 </project>
+
