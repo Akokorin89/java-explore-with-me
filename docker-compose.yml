@@ -28,24 +28,27 @@ services:
 
   ewm-service:
     build: ./ewm-main-service
-    image: ewm-main-service
-    container_name: ewm-service
+    image: main
+    container_name: ewm_main
     ports:
-      - "8080:8080"
+        - "8080:8080"
     depends_on:
-      - ewm-db
-      - stats-db
+        - ewm-db
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-service-db:5432/ewm-db
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - STATS_SERVER_URL=http://stats-server:9090
+        - SPRING_PROFILES_ACTIVE=dev
+        - STAT_URL=http://stats-server:9090
+        - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/main-service
+        - SPRING_DATASOURCE_USERNAME=root
+        - SPRING_DATASOURCE_PASSWORD=root
+        - SERVER_PORT=8080
+        - MAIN_SERVICE_NAME=ewm-main-service
 
   ewm-db:
     image: postgres:14
-    container_name: ewm-service-db
+    container_name: ewm-main-postgres
+    ports:
+      - "6541:5432"
     environment:
-
-      - POSTGRES_DB=ewm-service-db
+      - POSTGRES_DB=main-service
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
