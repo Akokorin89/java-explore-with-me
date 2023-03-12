@@ -7,9 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+import ru.practicum.ewm_stats.dto.GetStatsDto;
 
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,23 +24,21 @@ public class ViewStatsClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> getStats(LocalDateTime start, LocalDateTime end, List<String> uris, Boolean unique) {
+    public ResponseEntity<Object> getStats(GetStatsDto getStatsDto) {
         Map<String, Object> parameters;
-        if (uris != null) {
+        if (getStatsDto.getUris() != null) {
             parameters = Map.of(
-                    "start", start,
-                    "end", end,
-                    "uris", uris,
-                    "unique", unique
+                    "start", getStatsDto.getStart(),
+                    "end", getStatsDto.getEnd(),
+                    "uris", getStatsDto.getUris(),
+                    "unique", getStatsDto.getUnique()
             );
             return get("?start={start}&end={end}&uris={uris}&unique={unique}", parameters);
-        } else {
-            parameters = Map.of(
-                    "start", start,
-                    "end", end,
-                    "unique", unique
-            );
-            return get("?start={start}&end={end}&unique={unique}", parameters);
         }
+        return get("?start={start}&end={end}&unique={unique}", Map.of(
+                "start", getStatsDto.getStart(),
+                "end", getStatsDto.getEnd(),
+                "unique", getStatsDto.getUnique()));
     }
+
 }
