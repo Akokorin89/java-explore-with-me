@@ -1,13 +1,11 @@
 package ru.practicum.ewmmainservice.user.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Setter
+@Getter
 @Entity
 @Builder
 @NoArgsConstructor

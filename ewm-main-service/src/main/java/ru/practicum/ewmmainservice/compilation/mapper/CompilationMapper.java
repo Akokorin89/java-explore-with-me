@@ -1,41 +1,36 @@
 package ru.practicum.ewmmainservice.compilation.mapper;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.experimental.UtilityClass;
+import org.springframework.data.domain.Page;
+import ru.practicum.ewmmainservice.compilation.dto.CompilationCreateDto;
 import ru.practicum.ewmmainservice.compilation.dto.CompilationDto;
-import ru.practicum.ewmmainservice.compilation.dto.NewCompilationDto;
 import ru.practicum.ewmmainservice.compilation.model.Compilation;
-import ru.practicum.ewmmainservice.event.dto.EventShortDto;
-import ru.practicum.ewmmainservice.event.model.Event;
-import ru.practicum.ewmmainservice.event.service.EventPrivateService;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
-@RequiredArgsConstructor
+@UtilityClass
 public class CompilationMapper {
-    private final EventPrivateService service;
 
-    public Compilation toModel(NewCompilationDto newCompilationDto) {
-        Set<Event> events = newCompilationDto.getEvents()
-                .stream()
-                .map(service::findEventById)
-                .collect(Collectors.toSet());
-        return Compilation.builder()
-                .title(newCompilationDto.getTitle())
-                .pinned(newCompilationDto.getPinned())
-                .events(events)
-                .build();
-    }
-
-    public CompilationDto toDto(Compilation compilation, List<EventShortDto> events) {
+    public static CompilationDto toCompilationDto(Compilation compilation) {
         return CompilationDto.builder()
                 .id(compilation.getId())
                 .title(compilation.getTitle())
-                .pinned(compilation.isPinned())
-                .events(events)
+                .pinned(compilation.getPinned())
+                .events(compilation.getEvents())
                 .build();
+    }
+
+    public static Compilation toCompilation(CompilationCreateDto compilationCreateDto) {
+        return Compilation.builder()
+                .title(compilationCreateDto.getTitle())
+                .pinned(compilationCreateDto.getPinned())
+                .build();
+    }
+
+    public static List<CompilationDto> toCompilationsDto(Page<Compilation> compilations) {
+        return compilations.stream()
+                .map(CompilationMapper::toCompilationDto)
+                .collect(Collectors.toList());
     }
 }

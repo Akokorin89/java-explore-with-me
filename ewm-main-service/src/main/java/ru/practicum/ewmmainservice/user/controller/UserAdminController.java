@@ -1,6 +1,7 @@
 package ru.practicum.ewmmainservice.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewmmainservice.user.dto.UserCreateDto;
 import ru.practicum.ewmmainservice.user.dto.UserDto;
@@ -28,11 +29,13 @@ public class UserAdminController {
         return service.findAll(ids, from, size);
     }
 
+    @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping // Добавление нового пользователя
     public UserDto save(@Valid @RequestBody UserCreateDto userCreateDto) {
         return service.save(userCreateDto);
     }
 
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
     @DeleteMapping("/{userId}") // Удаление пользователя
     public void delete(@PathVariable Long userId) {
         service.deleteById(userId);

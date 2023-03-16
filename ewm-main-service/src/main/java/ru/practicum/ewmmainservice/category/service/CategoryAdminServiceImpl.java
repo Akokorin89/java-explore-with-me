@@ -9,7 +9,8 @@ import ru.practicum.ewmmainservice.category.dto.NewCategoryDto;
 import ru.practicum.ewmmainservice.category.mapper.CategoryMapper;
 import ru.practicum.ewmmainservice.category.model.Category;
 import ru.practicum.ewmmainservice.category.repository.CategoryRepository;
-import ru.practicum.ewmmainservice.exception.ForbiddenException;
+import ru.practicum.ewmmainservice.event.repository.EventRepository;
+import ru.practicum.ewmmainservice.exception.ConflictException;
 import ru.practicum.ewmmainservice.exception.NotFoundException;
 
 
@@ -20,14 +21,15 @@ import ru.practicum.ewmmainservice.exception.NotFoundException;
 public class CategoryAdminServiceImpl implements CategoryAdminService {
     private final CategoryRepository repository;
     private final CategoryMapper mapper;
+    private final EventRepository eventRepository;
 
     @Transactional
     @Override
-    public CategoryDto update(CategoryDto categoryDto) {
+    public CategoryDto update(Long catId, CategoryDto categoryDto) {
         Category categoryUpdate = mapper.toUpdate(categoryDto);
-        Category category = findById(categoryUpdate.getId());
+        Category category = findById(catId);
         if (categoryUpdate.getName().equals(category.getName())) {
-            throw new ForbiddenException("CategoryAdminService: Уже создана категория с названием=" +
+            throw new ConflictException("CategoryAdminService: Уже создана категория с названием=" +
                     categoryUpdate.getName());
         }
         category.setName(categoryUpdate.getName());
@@ -52,6 +54,10 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         Category category = repository.findById(categoryId)
                 .orElseThrow(() ->
                         new NotFoundException("CategoryAdminService: Не найдена категория событий с id=" + categoryId));
+
+        if (!eventRepository.findAllByCategoryId(categoryId).isEmpty()) {
+            throw new ConflictException("CategoryAdminService: Невозможно удалить категорию, когда в ней есть события.");
+        }
         repository.delete(category);
         log.info("CategoryAdminService: Удалена информация о категории №={}.", categoryId);
     }

@@ -5,7 +5,7 @@ import ru.practicum.ewmmainservice.category.dto.NewCategoryDto;
 
 public interface CategoryAdminService {
 
-    CategoryDto update(CategoryDto categoryDto);
+    CategoryDto update(Long catId, CategoryDto categoryDto);
 
     CategoryDto save(NewCategoryDto newCategoryDto);
 

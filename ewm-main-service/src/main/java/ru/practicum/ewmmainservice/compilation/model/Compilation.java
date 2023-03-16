@@ -1,30 +1,34 @@
 package ru.practicum.ewmmainservice.compilation.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import ru.practicum.ewmmainservice.event.model.Event;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
-@Data
-@Entity
-@Builder
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
 @Table(name = "compilations")
 public class Compilation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
+
+    @Column(name = "title")
     private String title;
-    private boolean pinned;
+
+    @Column(name = "pinned")
+    private Boolean pinned;
+
     @ManyToMany
-    @JoinTable(
-            name = "events_compilation",
-            joinColumns = @JoinColumn(name = "compilation_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
-    @ToString.Exclude
-    @JsonIgnore
-    private Set<Event> events;
+    @JoinTable(name = "compilation_event",
+            joinColumns = {@JoinColumn(name = "compilation_id")},
+            inverseJoinColumns = {@JoinColumn(name = "event_id")})
+    private List<Event> events;
 }

@@ -1,36 +1,25 @@
 package ru.practicum.ewmmainservice.event.dto;
 
-
 import lombok.*;
-import ru.practicum.ewmmainservice.category.dto.CategoryDto;
-import ru.practicum.ewmmainservice.event.model.State;
 import ru.practicum.ewmmainservice.location.dto.LocationDto;
-import ru.practicum.ewmmainservice.user.dto.UserShortDto;
 
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EventFullDto {
+public class PrivateUpdateEventDto {
 
     private Long id;
 
     private String annotation;
 
-    private CategoryDto category;
-
-    private Integer confirmedRequests;
-
-    private String createdOn;
+    private Long category;
 
     private String description;
 
     private String eventDate;
-
-    private UserShortDto initiator;
 
     private LocationDto location;
 
@@ -38,13 +27,9 @@ public class EventFullDto {
 
     private Integer participantLimit;
 
-    private LocalDateTime publishedOn;
-
     private Boolean requestModeration;
 
-    private State state;
+    private StateAction stateAction;
 
     private String title;
-
-    private Long views;
 }

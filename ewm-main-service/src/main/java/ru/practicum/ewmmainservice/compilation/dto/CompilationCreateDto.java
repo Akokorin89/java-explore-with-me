@@ -1,8 +1,9 @@
 package ru.practicum.ewmmainservice.compilation.dto;
 
 import lombok.*;
-import ru.practicum.ewmmainservice.event.model.Event;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -10,13 +11,14 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompilationDto {
+public class CompilationCreateDto {
 
-    private Long id;
-
+    @NotBlank
     private String title;
 
+    @NotNull
     private Boolean pinned;
 
-    private List<Event> events;
+    @NotNull
+    private List<Long> events;
 }

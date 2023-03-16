@@ -27,7 +27,7 @@ public class ErrorHandler {
                 .build();
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ApiError handleNotFoundException(final NotFoundException e) {
         return ApiError.builder()
@@ -38,19 +38,19 @@ public class ErrorHandler {
                 .build();
     }
 
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Throwable.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleInternalServerError(final Throwable e) {
         e.printStackTrace();
         return ApiError.builder()
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.BAD_REQUEST)
                 .reason("Error occurred")
                 .message(e.getMessage())
                 .timestamp(LocalDateTime.now())
                 .build();
     }
 
-    @ExceptionHandler
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleArgumentNotValid(final MethodArgumentNotValidException e) {
         String objectName = e.getObjectName();
@@ -59,6 +59,18 @@ public class ErrorHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .reason(String.format("During [%s] validation found %s errors", objectName, errorCount))
                 .errors(getErrors(e.getFieldErrors()))
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(ConflictException.class)
+    public ApiError handleConflictException(final ConflictException e) {
+        String message = NestedExceptionUtils.getMostSpecificCause(e).getMessage();
+        return ApiError.builder()
+                .status(HttpStatus.CONFLICT)
+                .reason("Integrity constraint has been violated")
+                .message(message)
                 .timestamp(LocalDateTime.now())
                 .build();
     }

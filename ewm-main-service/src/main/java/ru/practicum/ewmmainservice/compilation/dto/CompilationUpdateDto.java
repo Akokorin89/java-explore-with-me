@@ -1,22 +1,21 @@
 package ru.practicum.ewmmainservice.compilation.dto;
 
-import lombok.*;
-import ru.practicum.ewmmainservice.event.model.Event;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CompilationDto {
-
-    private Long id;
+public class CompilationUpdateDto {
 
     private String title;
 
     private Boolean pinned;
 
-    private List<Event> events;
+    private List<Long> events;
 }
