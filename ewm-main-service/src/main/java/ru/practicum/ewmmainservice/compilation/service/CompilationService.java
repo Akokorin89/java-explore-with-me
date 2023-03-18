@@ -1,6 +1,5 @@
 package ru.practicum.ewmmainservice.compilation.service;
 
-
 import ru.practicum.ewmmainservice.compilation.dto.CompilationCreateDto;
 import ru.practicum.ewmmainservice.compilation.dto.CompilationDto;
 import ru.practicum.ewmmainservice.compilation.dto.CompilationUpdateDto;

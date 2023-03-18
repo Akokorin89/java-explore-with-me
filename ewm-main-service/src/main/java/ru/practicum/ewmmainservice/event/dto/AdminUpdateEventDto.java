@@ -1,7 +1,11 @@
 package ru.practicum.ewmmainservice.event.dto;
 
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import ru.practicum.ewmmainservice.location.dto.LocationDto;
+
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -16,8 +20,8 @@ public class AdminUpdateEventDto {
     private Long category;
 
     private String description;
-
-    private String eventDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime eventDate;
 
     private LocationDto location;
 

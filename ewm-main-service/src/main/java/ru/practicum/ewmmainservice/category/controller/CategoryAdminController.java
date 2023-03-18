@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewmmainservice.category.dto.CategoryDto;
 import ru.practicum.ewmmainservice.category.dto.NewCategoryDto;
-import ru.practicum.ewmmainservice.category.service.CategoryAdminService;
+import ru.practicum.ewmmainservice.category.service.CategoryService;
 
 import javax.validation.Valid;
 
@@ -13,7 +13,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping(path = "/admin/categories")
 public class CategoryAdminController {
-    private final CategoryAdminService service;
+    private final CategoryService service;
 
     @PatchMapping("/{catId}") // изменение категории
     public CategoryDto update(@PathVariable Long catId, @Valid @RequestBody CategoryDto categoryDto) {

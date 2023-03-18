@@ -16,7 +16,6 @@ public class CompilationCreateDto {
     @NotBlank
     private String title;
 
-    @NotNull
     private Boolean pinned;
 
     @NotNull

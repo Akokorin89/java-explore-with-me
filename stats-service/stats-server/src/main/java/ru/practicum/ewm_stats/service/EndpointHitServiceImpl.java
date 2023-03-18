@@ -10,10 +10,10 @@ import ru.practicum.ewm_stats.dto.ViewStatsDto;
 import ru.practicum.ewm_stats.model.EndpointHit;
 import ru.practicum.ewm_stats.repository.EndpointHitRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.practicum.ewm_stats.EndpointHitMapper.*;
+import static ru.practicum.ewm_stats.EndpointHitMapper.toEndpointHit;
+import static ru.practicum.ewm_stats.EndpointHitMapper.toEndpointHitDto;
 
 @Service
 @Slf4j
@@ -34,20 +34,15 @@ public class EndpointHitServiceImpl implements EndpointHitService {
     @Override
     public List<ViewStatsDto> getViewStats(GetStatsDto getStatsDto) {
 
-        LocalDateTime startDate = LocalDateTime.parse(getStatsDto.getStart(),
-                DATE_TIME_FORMATTER);
-        LocalDateTime endDate = LocalDateTime.parse(getStatsDto.getEnd(),
-                DATE_TIME_FORMATTER);
-
         List<ViewStatsDto> viewStats;
         List<String> uris = getStatsDto.getUris();
 
         if (getStatsDto.getUris().isEmpty()) {
-            viewStats = (getStatsDto.getUnique() ? endpointHitRepository.getStatsUniqueByTime(startDate, endDate)
-                    : endpointHitRepository.getAllStatsByTime(startDate, endDate));
+            viewStats = (getStatsDto.getUnique() ? endpointHitRepository.getStatsUniqueByTime(getStatsDto.getStart(), getStatsDto.getEnd())
+                    : endpointHitRepository.getAllStatsByTime(getStatsDto.getStart(), getStatsDto.getEnd()));
         } else {
-            viewStats = (getStatsDto.getUnique() ? endpointHitRepository.getStatsUniqueByTimeAndUris(startDate, endDate, uris)
-                    : endpointHitRepository.getStatsByTimeAndUris(startDate, endDate, uris));
+            viewStats = (getStatsDto.getUnique() ? endpointHitRepository.getStatsUniqueByTimeAndUris(getStatsDto.getStart(), getStatsDto.getEnd(), uris)
+                    : endpointHitRepository.getStatsByTimeAndUris(getStatsDto.getStart(), getStatsDto.getEnd(), uris));
         }
         return viewStats;
     }

@@ -55,7 +55,7 @@ public class EventServiceImpl implements EventService {
         User user = getUser(userId);
         Event event = toEvent(newEventDto);
 
-        validateDate(LocalDateTime.parse(newEventDto.getEventDate(), DATE_TIME_FORMATTER));
+        validateDate(event.getEventDate());
         Location location = locationRepository.save(toLocation(newEventDto.getLocation()));
         event.setCategory(getCategory(newEventDto.getCategory()));
         event.setLocation(location);
@@ -78,7 +78,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public EventFullDto updateEventByUserId(Long eventId, Long userId, PrivateUpdateEventDto eventDto) {
         if (eventDto.getEventDate() != null) {
-            validateDate(LocalDateTime.parse(eventDto.getEventDate(), DATE_TIME_FORMATTER));
+            validateDate(eventDto.getEventDate());
         }
         Event event = getEvent(eventId);
         if (!event.getInitiator().getId().equals(userId)) {
@@ -138,7 +138,7 @@ public class EventServiceImpl implements EventService {
                             .collect(Collectors.toList());
                     break;
                 default:
-                    throw new ConflictException("EventService: Сортировкавозможна только по просмотрам или дате события.");
+                    throw new ConflictException("EventService: Сортировка возможна только по просмотрам или дате события.");
             }
         }
         return events;
@@ -179,7 +179,7 @@ public class EventServiceImpl implements EventService {
     public EventFullDto updateEventByAdmin(Long eventId, AdminUpdateEventDto eventDto) {
 
         if (eventDto.getEventDate() != null) {
-            validateDate(LocalDateTime.parse(eventDto.getEventDate(), DATE_TIME_FORMATTER));
+            validateDate(eventDto.getEventDate());
         }
         Event event = getEvent(eventId);
         if (eventDto.getTitle() != null) {
@@ -196,7 +196,7 @@ public class EventServiceImpl implements EventService {
             event.setCategory(category);
         }
         if (eventDto.getEventDate() != null) {
-            event.setEventDate(LocalDateTime.parse(eventDto.getEventDate(), DATE_TIME_FORMATTER));
+            event.setEventDate(eventDto.getEventDate());
         }
         if (eventDto.getLocation() != null) {
             event.setLocation(event.getLocation());

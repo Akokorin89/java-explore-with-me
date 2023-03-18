@@ -38,4 +38,5 @@ public class EventClient extends BaseClient {
                 .timestamp(LocalDateTime.now().format(DATE_TIME_FORMATTER))
                 .build());
     }
+
 }

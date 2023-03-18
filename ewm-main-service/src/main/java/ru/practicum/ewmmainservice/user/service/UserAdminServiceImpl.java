@@ -22,24 +22,24 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class UserAdminServiceImpl implements UserAdminService {
     private final UserRepository repository;
-    private final UserMapper mapper;
+
 
     @Override
     public List<UserDto> findAll(Set<Long> ids, int from, int size) {
         log.info("UserAdminService: Получение информации о пользователях с параметрами from={}, size={}", from, size);
         return repository.findAll(PageRequest.of(from / size, size))
                 .stream()
-                .map(mapper::toDto)
+                .map(UserMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     @Override
     public UserDto save(UserCreateDto userCreateDto) {
-        User user = mapper.toModel(userCreateDto);
+        User user = UserMapper.toModel(userCreateDto);
         User saved = repository.save(user);
         log.info("UserAdminService: Cохранен пользователь=" + saved);
-        return mapper.toDto(saved);
+        return UserMapper.toDto(saved);
     }
 
     @Transactional
@@ -57,7 +57,7 @@ public class UserAdminServiceImpl implements UserAdminService {
     public List<UserDto> getUsersByIds(Set<Long> ids) {
         return repository.findUsersByIdIn(ids)
                 .stream()
-                .map(mapper::toDto)
+                .map(UserMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

@@ -9,6 +9,7 @@ import ru.practicum.ewmmainservice.event.model.Event;
 import ru.practicum.ewmmainservice.event.model.State;
 
 import java.util.List;
+import java.util.Set;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
 
@@ -31,7 +32,8 @@ public interface EventRepository extends JpaRepository<Event, Long> {
     @Query("SELECT e FROM Event AS e " +
             "WHERE e.id IN :ids " +
             "ORDER BY e.id")
-    List<Event> findEventsByIds(@Param("ids") List<Long> events);
+    Set<Event> findEventsByIds(@Param("ids") List<Long> events);
 
-    List<Event> findAllByCategoryId(Long categoryId);
+    Set<Event> findAllByCategoryId(Long categoryId);
+
 }

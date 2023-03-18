@@ -2,6 +2,7 @@ package ru.practicum.ewmmainservice.category.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewmmainservice.category.dto.CategoryDto;
@@ -13,39 +14,36 @@ import ru.practicum.ewmmainservice.event.repository.EventRepository;
 import ru.practicum.ewmmainservice.exception.ConflictException;
 import ru.practicum.ewmmainservice.exception.NotFoundException;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class CategoryAdminServiceImpl implements CategoryAdminService {
+public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository repository;
-    private final CategoryMapper mapper;
     private final EventRepository eventRepository;
 
     @Transactional
     @Override
     public CategoryDto update(Long catId, CategoryDto categoryDto) {
-        Category categoryUpdate = mapper.toUpdate(categoryDto);
-        Category category = findById(catId);
-        if (categoryUpdate.getName().equals(category.getName())) {
-            throw new ConflictException("CategoryAdminService: Уже создана категория с названием=" +
-                    categoryUpdate.getName());
-        }
+        Category categoryUpdate = CategoryMapper.toUpdate(categoryDto);
+        Category category = findByIdValid(catId);
         category.setName(categoryUpdate.getName());
-        Category updated = repository.save(category);
-        log.info("CategoryAdminService: Обновлена информация о категории №={}.", updated.getId());
-        return mapper.toDto(updated);
+        log.info("CategoryAdminService: Обновлена информация о категории");
+        return CategoryMapper.toDto(repository.save(category));
     }
 
     @Transactional
     @Override
     public CategoryDto save(NewCategoryDto newCategoryDto) {
         log.info("CategoryAdminService: Сохранение категории с названием={}.", newCategoryDto.getName());
-        Category category = mapper.toModel(newCategoryDto);
+        Category category = CategoryMapper.toModel(newCategoryDto);
         Category saved = repository.save(category);
         log.info("CategoryAdminService: Сохранение категории={}.", saved);
-        return mapper.toDto(saved);
+        return CategoryMapper.toDto(saved);
     }
 
     @Transactional
@@ -62,7 +60,26 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         log.info("CategoryAdminService: Удалена информация о категории №={}.", categoryId);
     }
 
-    private Category findById(Long catId) {
+
+    @Override
+    public List<CategoryDto> findAll(int from, int size) {
+        log.info("PublicCategoriesService: Получение списка категорий.");
+        return repository.findAll(PageRequest.of(from / size, size))
+                .stream()
+                .map(CategoryMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CategoryDto findById(Long categoryId) {
+        log.info("PublicCategoriesService: Получение категории по ее идентификатору.");
+        Category category = repository.findById(categoryId)
+                .orElseThrow(() -> new NotFoundException("PublicCategoriesService: Не найдена категория с id=" +
+                        categoryId));
+        return CategoryMapper.toDto(category);
+    }
+
+    private Category findByIdValid(Long catId) {
         return repository.findById(catId)
                 .orElseThrow(() ->
                         new NotFoundException("CategoryAdminService: Не найдена категория с id=" + catId));

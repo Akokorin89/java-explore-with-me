@@ -14,8 +14,9 @@ import ru.practicum.ewmmainservice.event.model.Event;
 import ru.practicum.ewmmainservice.event.repository.EventRepository;
 import ru.practicum.ewmmainservice.exception.NotFoundException;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static ru.practicum.ewmmainservice.compilation.mapper.CompilationMapper.*;
 
@@ -32,7 +33,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     public CompilationDto saveCompilation(CompilationCreateDto compilationCreateDto) {
         Compilation compilation = toCompilation(compilationCreateDto);
-        List<Event> events = eventRepository.findAllById(compilationCreateDto.getEvents());
+        Set<Event> events = eventRepository.findEventsByIds(compilationCreateDto.getEvents());
         compilation.setEvents(events);
         log.info("CompilationService: Сохранена подборка событий с id={}.", compilation.getId());
         return toCompilationDto(compilationRepository.save(compilation));
@@ -43,7 +44,7 @@ public class CompilationServiceImpl implements CompilationService {
         Compilation compilationToUpdate = getCompilation(compId);
 
         if (compilationToUpdate.getEvents() != null) {
-            List<Event> events = new ArrayList<>();
+            Set<Event> events = new HashSet<>();
             if (compilationUpdateDto.getEvents().size() != 0) {
                 events = eventRepository.findEventsByIds(compilationUpdateDto.getEvents());
             }
@@ -74,6 +75,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public void deleteCompilation(Long compId) {
+        getCompilation(compId);
         log.info("CompilationService: Удалена информация о подборке событий №={}.", compId);
         compilationRepository.deleteById(compId);
     }

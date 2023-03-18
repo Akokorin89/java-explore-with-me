@@ -3,7 +3,7 @@ package ru.practicum.ewmmainservice.category.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewmmainservice.category.dto.CategoryDto;
-import ru.practicum.ewmmainservice.category.service.CategoriesPublicService;
+import ru.practicum.ewmmainservice.category.service.CategoryService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/categories")
 public class CategoriesPublicController {
-    private final CategoriesPublicService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping // Получение категорий
     public List<CategoryDto> findAll(@PositiveOrZero @RequestParam(defaultValue = "0") int from,
