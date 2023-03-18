@@ -9,7 +9,6 @@ import ru.practicum.ewm_stats.dto.ViewStatsDto;
 import ru.practicum.ewm_stats.service.EndpointHitService;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -25,8 +24,8 @@ public class StatsController {
     }
 
     @GetMapping("stats")
-    public List<ViewStatsDto> getViewStats(@RequestParam LocalDateTime start,
-                                           @RequestParam LocalDateTime end,
+    public List<ViewStatsDto> getViewStats(@RequestParam String start,
+                                           @RequestParam String end,
                                            @RequestParam(required = false) List<String> uris,
                                            @RequestParam(defaultValue = "false") Boolean unique) {
         return endpointHitService.getViewStats(new GetStatsDto(start, end, uris, unique));

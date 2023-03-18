@@ -1,12 +1,11 @@
 package ru.practicum.ewm_stats.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -15,10 +14,10 @@ import java.util.List;
 @NoArgsConstructor
 public class GetStatsDto {
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime start;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime end;
+    @NotNull
+    private String start;
+    @NotNull
+    private String end;
     private List<String> uris;
     private Boolean unique;
 }
