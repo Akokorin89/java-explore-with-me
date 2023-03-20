@@ -207,7 +207,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"annotation\": \"Alias inventore molestiae ipsam earum dicta iusto voluptatem minus.\",\r\n  \"category\": 1,\r\n  \"description\": \"Vitae fugit labore aut amet. Alias inventore molestiae ipsam earum dicta iusto voluptatem minus. Sit sint facere maiores aperiam et exercitationem alias\",\r\n  \"eventDate\": \"2024-12-31 15:10:05\",\r\n  \"location\": {\r\n    \"lat\": 55.75,\r\n    \"lon\": 37.62\r\n  },\r\n  \"paid\": true,\r\n  \"participantLimit\": 10,\r\n  \"requestModeration\": false,\r\n  \"title\": \"Accusamus magnam nisi\"\r\n}",
+					"raw": "{\r\n  \"annotation\": \"Alias inventore molestiae ipsam earum dicta iusto voluptatem minus.\",\r\n  \"category\": 1,\r\n  \"description\": \"Vitae fugit labore aut amet. Alias inventore molestiae ipsam earum dicta iusto voluptatem minus. Sit sint facere maiores aperiam et exercitationem alias\",\r\n  \"eventDate\": \"2024-12-31 15:10:05\",\r\n  \"location\": {\r\n    \"lat\": 55.75,\r\n    \"lon\": 37.62\r\n  },\r\n  \"paid\": true,\r\n  \"participantLimit\": 10,\r\n  \"requestModeration\": false,\r\n\"stateAction\": \"PUBLISH_EVENT\" \"title\": \"Accusamus magnam nisi\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -225,56 +225,6 @@
 						"users",
 						"1",
 						"events"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Редактирование статуса события",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"exec": [
-							"pm.test(\"Ответ должен содержать код статуса 200\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200]);",
-							"});"
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "PATCH",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"annotation\": \"Alias inventore molestiae ipsam earum dicta iusto voluptatem minus.\",\r\n  \"category\": 1,\r\n  \"description\": \"Vitae fugit labore aut amet. Alias inventore molestiae ipsam earum dicta iusto voluptatem minus. Sit sint facere maiores aperiam et exercitationem alias\",\r\n  \"eventDate\": \"2024-12-31 15:10:05\",\r\n  \"location\": {\r\n    \"lat\": 55.75,\r\n    \"lon\": 37.62\r\n  },\r\n  \"paid\": true,\r\n  \"participantLimit\": 10,\r\n  \"requestModeration\": false,\r\n\"stateAction\": \"PUBLISH_EVENT\",\n  \"title\": \"Accusamus magnam nisi\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/admin/events/:eventId",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"admin",
-						"events",
-						":eventId"
-					],
-					"variable": [
-						{
-							"key": "eventId",
-							"value": "1",
-							"description": "id event"
-						}
 					]
 				}
 			},
