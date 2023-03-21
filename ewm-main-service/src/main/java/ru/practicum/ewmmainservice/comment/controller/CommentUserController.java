@@ -7,9 +7,6 @@ import ru.practicum.ewmmainservice.comment.dto.CommentDto;
 import ru.practicum.ewmmainservice.comment.dto.CommentUpdateDto;
 import ru.practicum.ewmmainservice.comment.service.CommentService;
 
-
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -40,9 +37,13 @@ public class CommentUserController {
     }
 
     @GetMapping
-    public List<CommentDto> getAllCommentsByUser(@PathVariable Long userId,
-                                                 @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
-                                                 @Positive @RequestParam(defaultValue = "10") Integer size) {
-        return commentService.getAllCommentsByUser(userId, from, size);
+    public List<CommentDto> getAllCommentsByUser(@PathVariable Long userId) {
+        return commentService.getAllCommentsByUser(userId);
+    }
+
+    @GetMapping("/{commentId}")
+    public CommentDto getCommentUserById(@PathVariable Long userId,
+                                         @PathVariable Long commentId) {
+        return commentService.getCommentUserById(userId, commentId);
     }
 }

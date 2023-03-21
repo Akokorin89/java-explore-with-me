@@ -1,13 +1,13 @@
 package ru.practicum.ewmmainservice.comment.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.practicum.ewmmainservice.comment.dto.CommentDto;
 import ru.practicum.ewmmainservice.comment.service.CommentService;
 
-
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -18,9 +18,13 @@ public class PublicCommentController {
     private final CommentService commentService;
 
     @GetMapping
-    public List<CommentDto> getAllCommentsByEvent(@PathVariable Long eventId,
-                                                  @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
-                                                  @Positive @RequestParam(defaultValue = "10") Integer size) {
-        return commentService.getAllCommentsByEvent(eventId, from, size);
+    public List<CommentDto> getAllCommentsByEvent(@PathVariable Long eventId) {
+        return commentService.getAllCommentsByEvent(eventId);
+    }
+
+    @GetMapping("/{commentId}")
+    public CommentDto getCommentEventById(@PathVariable Long eventId,
+                                          @PathVariable Long commentId) {
+        return commentService.getCommentEventById(eventId, commentId);
     }
 }

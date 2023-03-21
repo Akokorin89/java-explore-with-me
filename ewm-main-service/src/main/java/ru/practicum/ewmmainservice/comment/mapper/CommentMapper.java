@@ -1,12 +1,10 @@
 package ru.practicum.ewmmainservice.comment.mapper;
 
 import lombok.experimental.UtilityClass;
-import org.springframework.data.domain.Page;
 import ru.practicum.ewmmainservice.comment.dto.CommentDto;
 import ru.practicum.ewmmainservice.comment.model.Comment;
 import ru.practicum.ewmmainservice.event.model.Event;
 import ru.practicum.ewmmainservice.user.model.User;
-
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,7 +32,7 @@ public class CommentMapper {
                 .build();
     }
 
-    public static List<CommentDto> toCommentsDto(Page<Comment> comments) {
+    public static List<CommentDto> toCommentsDto(List<Comment> comments) {
         return comments.stream()
                 .map(CommentMapper::toCommentDto)
                 .collect(Collectors.toList());

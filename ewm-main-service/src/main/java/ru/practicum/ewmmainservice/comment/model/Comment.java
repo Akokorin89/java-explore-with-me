@@ -5,7 +5,6 @@ import ru.practicum.ewmmainservice.event.model.Event;
 import ru.practicum.ewmmainservice.user.model.User;
 
 import javax.persistence.*;
-import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 @Getter
@@ -32,6 +31,10 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-
+    @JoinColumn(name = "created")
     private LocalDateTime created;
+    @Column(name = "edited_on")
+    private LocalDateTime editedOn;
+    @Column(name = "is_edited")
+    private boolean isEdited;
 }
