@@ -10,6 +10,7 @@ import ru.practicum.ewmmainservice.event.model.Event;
 import ru.practicum.ewmmainservice.user.dto.UserShortDto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +40,7 @@ public class EventMapper {
                 .title(event.getTitle())
                 .views(event.getViews())
                 .confirmedRequests(event.getConfirmedRequests())
+                .comments(new ArrayList<>())
                 .build();
     }
 
@@ -65,6 +67,7 @@ public class EventMapper {
                 .initiator(new UserShortDto(event.getInitiator().getId(), event.getInitiator().getName()))
                 .paid(event.getPaid())
                 .title(event.getTitle())
+                .comments(new ArrayList<>())
                 .build();
     }
 
